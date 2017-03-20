@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.loginandpaytools.ui.floatingbutton.FloatingDraftButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/library_floatingActionButton"
+    android:layout_height="50dp"
+    android:layout_width="50dp"
+    android:layout_alignParentBottom="true"
+    android:layout_margin="20dp"
+    android:background="@drawable/com_sawako_paylibrary_fab1"
+    android:visibility="invisible"/>
+
+

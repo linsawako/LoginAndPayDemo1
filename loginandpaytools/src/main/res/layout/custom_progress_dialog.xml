@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/progressdialog_shape"
+              android:orientation="vertical">
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/loading_gif_imageview"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/loading"
+        android:layout_gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/loading_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/loading_text"/>
+
+</LinearLayout>

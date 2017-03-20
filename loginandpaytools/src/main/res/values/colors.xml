@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="login_background">#ffffff</color>
+    <color name="Title_background">#b7f2f2f2</color>
+    <color name="divide_background">#d6d3d3</color>
+    <color name="text_color">#f25a30</color>
+    <color name="text_color_original">#7c7b7b</color>
+    <color name="popupwindow_background">#ffffff</color>
+    <color name="progressdialog_background">#9c1e1e1e</color>
+    <color name="super_light_grey">#7beaeaea</color>
+    <color name="white">#ffffff</color>
+    <color name="toolbar">#f8f8f8</color>
+    <color name="toolbar_title">#f25a30</color>
+    <color name="button_background">#898989</color>
+    <color name="black_semi_transparent">#B2000000</color>
+    <color name="text">#FFFFFF</color>
+    <color name="button_title">#db8f30</color>
+    <!-- 70%透明度 -->
+    <color name="alpha">#00010000</color>
+
+</resources>

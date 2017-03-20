@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.loginandpaytools.ui.LoginDialogActivity">
+
+    <RelativeLayout
+        android:id="@+id/login_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:background="@color/Title_background"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/divide_line"
+            android:layout_width="2dp"
+            android:layout_height="24dp"
+            android:layout_centerInParent="true"
+            android:background="@color/divide_background"/>
+
+        <TextView
+            android:id="@+id/account_login_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_toStartOf="@id/divide_line"
+            android:paddingEnd="24dp"
+            android:clickable="true"
+            android:text="@string/account_login"
+            android:textSize="20sp"/>
+
+
+        <TextView
+            android:id="@+id/register_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_toEndOf="@id/divide_line"
+            android:paddingStart="24dp"
+            android:clickable="true"
+            android:text="@string/register_account"
+            android:textSize="20sp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/account_linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_title_layout"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/account_linearlayout_shape">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginEnd="16dp"
+                android:layout_gravity="start|center_vertical"
+                android:background="@drawable/account"
+                />
+
+            <include layout="@layout/input_and_dropdown"/>
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:id="@+id/password_linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/account_linearlayout"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/account_linearlayout_shape">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_gravity="start|center_vertical"
+                android:layout_height="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/password"/>
+
+            <ImageView
+                android:id="@+id/divide_line_3"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:background="@color/divide_background"/>
+
+            <EditText
+                android:id="@+id/input_password_edittext"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:textSize="18sp"
+                android:paddingTop="10dp"
+                android:layout_marginEnd="40dp"
+                android:inputType="textVisiblePassword"
+                android:layout_weight="1"
+                android:background="@null"
+                android:typeface="normal"
+                android:hint="@string/input_password"/>
+
+        </LinearLayout>
+
+
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_below="@id/password_linearlayout"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/text_color"
+            android:gravity="center"
+            android:text="@string/login_game"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"/>
+
+
+</RelativeLayout>

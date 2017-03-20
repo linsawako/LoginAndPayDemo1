@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">LoginAndPayTools</string>
+    <string name="account_login">账 号 登 录</string>
+    <string name="register_account">注 册 账 号</string>
+    <string name="login_game">登 录 游 戏</string>
+    <string name="input_account">输入账号</string>
+    <string name="input_password">输入密码</string>
+    <string name="register_now">立 即 注 册</string>
+    <string name="loading_text">正在载入</string>
+    <string name="paylibrary_no_net">当前无网络连接</string>
+    <string name="paylibrary_net_error">服务器出了点小问题</string>
+    <string name="paylibrary_no_platform_order_num">未支付</string>
+    <string name="no_internet">当前无网络连接</string>
+    <string name="register_successfully">注册成功</string>
+    <string name="non_user_name">账号不可为空</string>
+    <string name="non_password">密码不可为空</string>
+</resources>
