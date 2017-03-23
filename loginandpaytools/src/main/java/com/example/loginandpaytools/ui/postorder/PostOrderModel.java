@@ -5,6 +5,7 @@ import com.example.loginandpaytools.base.baserx.RxTransformer;
 import com.example.loginandpaytools.base.util.SignUtil;
 import com.example.loginandpaytools.bean.Order;
 import com.example.loginandpaytools.bean.PayOrderResult;
+import com.example.loginandpaytools.common.Config;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +36,7 @@ public class PostOrderModel implements PostOrderContract.Model {
         map.put("role_id", String.valueOf(order.getRole_id()));
         map.put("role_name", order.getRole_name());
         map.put("role_level", String.valueOf(order.getRole_level()));
+        map.put("ext", Config.ext);
 
         String sign = SignUtil.sign(map);
 
@@ -51,6 +53,7 @@ public class PostOrderModel implements PostOrderContract.Model {
                         order.getRole_id(),
                         order.getRole_name(),
                         order.getRole_level(),
+                        Config.ext,
                         sign)
                 .compose(RxTransformer.<String>schedules_io_main())
                 .compose(RxTransformer.handleResultFromString(PayOrderResult.class));

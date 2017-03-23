@@ -11,6 +11,8 @@ public class Config {
 
     /*需要post的参数*/
 
+    public static int channel_id;
+
     public static int uid;
 
     public static String token;
@@ -42,6 +44,8 @@ public class Config {
     public static Order order;
 
     public static int payType;
+
+    public static String ext;
 
     public static String platform_order_num;
 

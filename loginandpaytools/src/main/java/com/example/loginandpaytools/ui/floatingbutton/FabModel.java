@@ -13,9 +13,6 @@ import java.util.Map;
 
 import rx.Observable;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-import static com.example.loginandpaytools.common.Config.platform_order_num;
-
 /**
  * Created by linsawako on 2017/3/17.
  */

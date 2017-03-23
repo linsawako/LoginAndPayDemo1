@@ -26,7 +26,7 @@ public class PostOrderPresenter extends PostOrderContract.Presenter {
     @Override
     public void postOrder(Order order) {
         model.postOrder(order)
-                .subscribe(new RxSubscriber<PayOrderResult>(mContext) {
+                .subscribe(new RxSubscriber<PayOrderResult>(mContext, false) {
                     @Override
                     public void _onNext(PayOrderResult dataBean) {
                         getView().returnPlatform_order_num(dataBean.getPlatform_order_num());
@@ -36,6 +36,11 @@ public class PostOrderPresenter extends PostOrderContract.Presenter {
                     public void _onError(String errMsg) {
                         Log.d(TAG, "_onError: " + errMsg);
                         getView().errorReturnPlatForm(errMsg);
+                    }
+
+                    @Override
+                    public void _onCompleted() {
+
                     }
                 });
     }
@@ -52,6 +57,11 @@ public class PostOrderPresenter extends PostOrderContract.Presenter {
                     @Override
                     public void _onError(String errMsg) {
                         getView().errorReturnPayOrder(errMsg);
+                    }
+
+                    @Override
+                    public void _onCompleted() {
+                        getView().startIntent();
                     }
                 });
     }

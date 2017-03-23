@@ -6,8 +6,6 @@ package com.example.loginandpaytools.ui.floatingbutton;
 
 public interface FabButtonInterface {
 
-    void backEvent();
-
     void accountEvent();
 
     void infoEvent();

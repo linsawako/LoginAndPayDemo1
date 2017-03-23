@@ -8,14 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.loginandpaytools.Support.Configuration;
 import com.example.loginandpaytools.Support.LoginEvent;
 import com.example.loginandpaytools.Support.RxBus;
-import com.example.loginandpaytools.bean.Order;
-import com.example.loginandpaytools.ui.LoginDialogActivity;
 import com.example.loginandpaytools.Utils.HttpCallbackListener;
 import com.example.loginandpaytools.Utils.HttpUtil;
+import com.example.loginandpaytools.bean.Order;
 import com.example.loginandpaytools.common.Config;
+import com.example.loginandpaytools.ui.LoginDialogActivity;
 import com.example.loginandpaytools.ui.postorder.PostOrderActivity;
 
 import rx.Subscription;
@@ -82,14 +81,9 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
-        /**
-         * 设置登陆所需公共参数
-         */
-        setConfiguration();
-
 
         /**
-         *设置支付所需公共参数
+         *设置公共参数
          */
         setConfig();
 
@@ -159,14 +153,16 @@ public class MainActivity extends AppCompatActivity {
      */
     private void setConfig() {
         //相关的值需要替换
+        Config.channel_id = 1;
         Config.uid = 1;
-        Config.token = "9akcle-59wmnd6ae-rkb";
+        Config.token = "aaa";
         Config.game_id = 1;
-        Config.package_name = "ios_1.0";
+        Config.package_name = "com.ios.xxqxz";
         Config.server_id = 1;
         Config.role_id = 1;
         Config.role_name = "test5";
         Config.role_level = 1;
+        Config.ext = "2";
 
         Order.Builder orderBuilder = Config.getOrderBuilder();
 
@@ -177,23 +173,6 @@ public class MainActivity extends AppCompatActivity {
         Config.order = orderBuilder.create();
     }
 
-    /**
-     * 设置登陆所需参数
-     */
-    private void setConfiguration() {
-
-        //相关的值需要替换
-        Configuration.GAME_ID = 1;
-        Configuration.CHANNEL_ID = 1;
-        Configuration.PACKAGE_NAME = "ios_1.0";
-        Configuration.UID = 1;
-        Configuration.TOKEN = "9akcle-59wmnd6ae-rkb";
-        Configuration.SERVER_ID = 1;
-        Configuration.ROLE_ID = 1;
-        Configuration.ROLE_NAME = "ABC";
-        Configuration.ROLE_LEVEL = 10;
-
-    }
 
     @Override
     protected void onDestroy() {

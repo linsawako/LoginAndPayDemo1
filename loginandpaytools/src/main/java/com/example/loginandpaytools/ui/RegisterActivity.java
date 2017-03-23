@@ -14,15 +14,21 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.loginandpaytools.R;
+import com.example.loginandpaytools.Utils.DataBaseHelper;
 import com.example.loginandpaytools.Utils.HttpCallbackListener;
 import com.example.loginandpaytools.Utils.HttpUtil;
 import com.example.loginandpaytools.Utils.NetworkUtil;
+import com.lzy.okgo.OkGo;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button mRegister_button;
     private EditText mInputAccount_Editview;
     private EditText mInputPassword_Editview;
+    private DataBaseHelper mDataBaseHelper;
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, RegisterActivity.class);
         return intent;
@@ -43,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.com_sawako_paylibrary_back);
         }
+        mDataBaseHelper = new DataBaseHelper(this);
         initView();
     }
 
@@ -51,13 +58,50 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         mInputAccount_Editview = (EditText) findViewById(R.id.input_account_edittext);
         mInputPassword_Editview = (EditText) findViewById(R.id.input_password_edittext);
         mRegister_button.setOnClickListener(this);
+        getRandomNameAndPassword();
+    }
+
+    private void getRandomNameAndPassword() {
+        HttpUtil.getRandomNameAndPassword(this, new HttpCallbackListener() {
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void onFinish(String code) {
+
+            }
+
+            @Override
+            public void onFinish(String s1, String s2) {
+                setNameAndPassword(s1, s2);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void setNameAndPassword(String userName, String passWord) {
+        mInputAccount_Editview.setText(userName);
+        mInputPassword_Editview.setText(passWord);
+        mInputAccount_Editview.requestFocus();
+        mInputAccount_Editview.setSelection(mInputAccount_Editview.getText().length());
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                mDataBaseHelper.cleanUp();
+                OkGo.getInstance().cancelAll();
                 finish();
+
                 break;
             default:
                 break;
@@ -95,6 +139,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onFinish(String s1, String s2) {
                     Toast.makeText(getApplicationContext(), R.string.register_successfully, Toast.LENGTH_SHORT).show();
+                    String date = createDate();
+                    mDataBaseHelper.insertOrUpdate(s1, s2, date, 1);
                 }
 
                 @Override
@@ -103,5 +149,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 }
             });
         }
+    }
+
+    private String createDate() {
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        return month + "." + day;
     }
 }

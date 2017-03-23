@@ -1,12 +1,16 @@
 package com.example.loginandpaytools.base.baserx;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.loginandpaytools.Exception.ServerException;
 import com.example.loginandpaytools.R;
 import com.example.loginandpaytools.base.util.NetWorkUtils;
+import com.example.loginandpaytools.ui.CustomProgressDialog;
 
 import rx.Subscriber;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -15,19 +19,46 @@ import rx.Subscriber;
 
 public abstract class RxSubscriber<T> extends Subscriber<T> {
     public Context mContext;
+    private static CustomProgressDialog mCustomProgressDialog;
+    public boolean showDialog;
+
+    /*mCustomProgressDialog = new CustomProgressDialog(context, R.style.CustomProgressDialog);
+                        mCustomProgressDialog.show();*/
+
+    public RxSubscriber(Context context, boolean showDialog) {
+        mContext = context;
+        this.showDialog = showDialog;
+        mCustomProgressDialog = new CustomProgressDialog(context, R.style.CustomProgressDialog);
+    }
 
     public RxSubscriber(Context context) {
-        mContext = context;
+        this(context, true);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (showDialog) {
+            mCustomProgressDialog.show();
+        }
     }
 
     @Override
     public void onCompleted() {
-
+        if (showDialog) {
+            mCustomProgressDialog.dismiss();
+            Log.d(TAG, "onCompleted: dismiss");
+        }
+        _onCompleted();
     }
 
     @Override
     public void onError(Throwable e) {
         e.printStackTrace();
+
+        if (showDialog) {
+            mCustomProgressDialog.dismiss();
+        }
 
         Context applicationContext = mContext.getApplicationContext();
 
@@ -49,6 +80,8 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     public abstract void _onNext(T t);
 
     public abstract void _onError(String errMsg);
+
+    public abstract void _onCompleted();
 
 }
 

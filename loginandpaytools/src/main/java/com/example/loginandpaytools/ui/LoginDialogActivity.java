@@ -79,30 +79,23 @@ public class LoginDialogActivity extends AppCompatActivity implements View.OnCli
         mLogin_Button = (Button) findViewById(R.id.login_button);
         mLogin_Button.setOnClickListener(this);
         mDropDownView = (ImageView) findViewById(R.id.dropdown_button);
-        mDropDownView.setOnClickListener(this);
         mDropDownView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(!mArrowDown){
-                    return true;
-                }
+
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     if(mPopupWindow==null){
                         initPopView();
                     }
-                    if (mArrowDown&&!mPopupWindow.isShowing()) {
+                    if(mArrowDown){
 
-                        /*if (!mPopupWindow.isShowing()) {
-                            setDropDownViewUp();
-                            View view = findViewById(R.id.input_and_dropdown_linearlayout);
-                            mPopupWindow.showAsDropDown(view);
-                        } else {
-
-                            mPopupWindow.dismiss();
-                        }*/
-                        View view = findViewById(R.id.input_and_dropdown_linearlayout);
-                        mPopupWindow.showAsDropDown(view);
                         setDropDownViewUp();
+                        return true;
+                    }
+                    else{
+                        setDropDownViewDown();
+                        mPopupWindow.dismiss();
+                        return true;
                     }
 
                 }
@@ -111,7 +104,20 @@ public class LoginDialogActivity extends AppCompatActivity implements View.OnCli
 
         });
 
-
+        mInputAccount_Editview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction()==MotionEvent.ACTION_DOWN){
+                    if(mPopupWindow==null){
+                        return false;
+                    }
+                    if(!mArrowDown){
+                        setDropDownViewDown();
+                    }
+                }
+                return false;
+            }
+        });
         checkLoginBefore();
     }
 
@@ -209,14 +215,14 @@ public class LoginDialogActivity extends AppCompatActivity implements View.OnCli
         mPopupWindow = new PopupWindow(mUserRecycleView, view.getWidth(),
                 ViewGroup.LayoutParams.WRAP_CONTENT, false);
         mPopupWindow.setFocusable(false);
-        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setOutsideTouchable(false);
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.popupwindow_background)));
-        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        /*mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 setDropDownViewDown();
             }
-        });
+        });*/
     }
 
     private void checkLoginBefore() {
@@ -224,7 +230,7 @@ public class LoginDialogActivity extends AppCompatActivity implements View.OnCli
         mUsers = (ArrayList<User>) mDataBaseHelper.queryAllUserName();
         if (mUsers.size() == 0) {
             mDropDownView.setVisibility(View.GONE);
-            HttpUtil.getRandomNameAndPassword(this, new HttpCallbackListener() {
+            /*HttpUtil.getRandomNameAndPassword(this, new HttpCallbackListener() {
 
                 @Override
                 public void onFinish() {
@@ -245,7 +251,7 @@ public class LoginDialogActivity extends AppCompatActivity implements View.OnCli
                 public void onError(Exception e) {
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-            });
+            });*/
         } else {
             mDropDownView.setVisibility(View.VISIBLE);
             setDropDownViewDown();
@@ -257,7 +263,7 @@ public class LoginDialogActivity extends AppCompatActivity implements View.OnCli
 
                     setDropDownViewDown();
                     setNameAndPassword(mUsers.get(position).getUserName(), mUsers.get(position).getPassword());
-                    mPopupWindow.dismiss();
+
                 }
             });
             mUserRecycleView.setAdapter(mUserAdapter);
@@ -267,12 +273,17 @@ public class LoginDialogActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void setDropDownViewDown() {
+        if(mPopupWindow!=null){
+            mPopupWindow.dismiss();
+        }
         mArrowDown = true;
         //mDropDownView.setImageDrawable(ContextCompat.getDrawable(LoginDialogActivity.this, R.drawable.arrow_down));
         mDropDownView.setImageResource(R.drawable.arrow_down);
     }
 
     private void setDropDownViewUp() {
+        View view = findViewById(R.id.input_and_dropdown_linearlayout);
+        mPopupWindow.showAsDropDown(view);
         mArrowDown = false;
         //mDropDownView.setImageDrawable(ContextCompat.getDrawable(LoginDialogActivity.this, R.drawable.arrow_up));
         mDropDownView.setImageResource(R.drawable.arrow_up);
@@ -286,6 +297,7 @@ public class LoginDialogActivity extends AppCompatActivity implements View.OnCli
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         return month + "." + day;
     }
+
 
     @Override
     protected void onDestroy() {

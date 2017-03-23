@@ -1,7 +1,10 @@
 package com.example.loginandpaytools.ui.wechatPay;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -9,6 +12,7 @@ import android.widget.Toast;
 import com.example.loginandpaytools.R;
 import com.example.loginandpaytools.base.basemvp.BaseActivity;
 import com.example.loginandpaytools.common.Config;
+import com.example.loginandpaytools.ui.LoginDialogActivity;
 import com.example.loginandpaytools.ui.payresult.PayResultContract;
 import com.example.loginandpaytools.ui.payresult.PayResultPresenter;
 import com.example.loginandpaytools.ui.postorder.PostOrderActivity;
@@ -25,6 +29,8 @@ public class WechatPayActivity extends BaseActivity<PostOrderPresenter>
     Button toPay_btn;
     PayResultContract.Presenter getResultPresenter;
     public final static String WECHATRESPONSE = "wechat_response";
+    public String platform_order_num;
+    private static final String TAG = "WechatPayActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +42,14 @@ public class WechatPayActivity extends BaseActivity<PostOrderPresenter>
         paid_btn.setOnClickListener(this);
         toPay_btn.setOnClickListener(this);
 
+        platform_order_num = Config.platform_order_num;
+
         getResultPresenter = new PayResultPresenter(this);
 
         if (getResultPresenter != null) {
             getResultPresenter.setmContext(this);
         }
+        Log.d(TAG, "onCreate: ");
 
     }
 
@@ -63,31 +72,30 @@ public class WechatPayActivity extends BaseActivity<PostOrderPresenter>
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.com_sawako_paylibrary_paid) {
-            if (Config.platform_order_num == null) {
+            if (platform_order_num == null) {
                 Toast.makeText(mContext, getApplicationContext().getString(R.string.paylibrary_no_platform_order_num), Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(WechatPayActivity.this, PostOrderActivity.class);
                 startActivity(intent);
             } else {
-                getResultPresenter.checkPayResult(Config.platform_order_num);
+                getResultPresenter.checkPayResult(platform_order_num);
             }
 
         } else if (view.getId() == R.id.com_sawako_paylibrary_topay) {
-            mPresenter.postOrder(Config.order);
+            if (platform_order_num != null) {
+                mPresenter.getPayOrder(platform_order_num);
+            }
         }
     }
 
     @Override
     public void returnPlatform_order_num(String platform_order_num) {
-        if (platform_order_num != null) {
-            Config.platform_order_num = platform_order_num;
-            mPresenter.getPayOrder(platform_order_num);
-        }
+
     }
 
     @Override
     public void errorReturnPlatForm(String errMsg) {
-        Toast.makeText(mContext, errMsg, Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -100,6 +108,11 @@ public class WechatPayActivity extends BaseActivity<PostOrderPresenter>
     @Override
     public void errorReturnPayOrder(String errMsg) {
         Toast.makeText(mContext, errMsg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void startIntent() {
+
     }
 
     @Override
@@ -117,5 +130,49 @@ public class WechatPayActivity extends BaseActivity<PostOrderPresenter>
     @Override
     public void errorGetResult(String errMsg) {
         Toast.makeText(mContext, errMsg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+        Log.d(TAG, "onConfigurationChanged: ");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //finish();
+        Log.d(TAG, "onPause: ");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: ");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart: ");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d(TAG, "onRestoreInstanceState: ");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
     }
 }

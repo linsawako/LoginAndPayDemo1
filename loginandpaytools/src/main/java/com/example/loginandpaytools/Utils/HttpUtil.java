@@ -1,10 +1,12 @@
 package com.example.loginandpaytools.Utils;
 
 import android.content.Context;
+import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
 import com.example.loginandpaytools.Callback.JsonCallback;
 import com.example.loginandpaytools.R;
+import com.example.loginandpaytools.Support.Configuration;
 import com.example.loginandpaytools.bean.JsonBean;
 import com.example.loginandpaytools.bean.SimpleResponse;
 import com.example.loginandpaytools.ui.CustomProgressDialog;
@@ -49,6 +51,8 @@ public class HttpUtil {
      * 激活接口
      */
     public static void activeInterface(Context context, final HttpCallbackListener listener) {
+        TelephonyManager telephonyManager=(TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        Configuration.DEVICE_ID = telephonyManager.getDeviceId();
         if(!NetworkUtil.isNetworkConnected(context)){
             Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show();
             return;
@@ -129,6 +133,8 @@ public class HttpUtil {
      * 获取随机用户名密码
      */
     public static void getRandomNameAndPassword(final Context context, final HttpCallbackListener listener) {
+        TelephonyManager telephonyManager=(TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        Configuration.DEVICE_ID = telephonyManager.getDeviceId();
         if(!NetworkUtil.isNetworkConnected(context)){
             Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show();
             return;
@@ -198,6 +204,8 @@ public class HttpUtil {
      * 发送登陆请求
      */
     public static void Login(final String user, final String password, final Context context, final HttpCallbackListener listener) {
+        TelephonyManager telephonyManager=(TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        Configuration.DEVICE_ID = telephonyManager.getDeviceId();
         if(!NetworkUtil.isNetworkConnected(context)){
             Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show();
             return;
@@ -296,6 +304,8 @@ public class HttpUtil {
      * 发送注册请求
      */
     public static void Register(final String user, final String password, Context context, final HttpCallbackListener listener) {
+        TelephonyManager telephonyManager=(TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        Configuration.DEVICE_ID = telephonyManager.getDeviceId();
         if(!NetworkUtil.isNetworkConnected(context)){
             Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show();
             return;

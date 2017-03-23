@@ -21,6 +21,8 @@ public interface PostOrderContract {
         void returnPayOrder(String response);
 
         void errorReturnPayOrder(String errMsg);
+
+        void startIntent();
     }
 
     abstract class Presenter extends BasePresenter<View> {

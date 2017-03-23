@@ -19,7 +19,7 @@ public class FabPresenter extends FloatingButtonContract.Presenter {
     @Override
     public void getFabResponse() {
         model.getFabResponse()
-                .subscribe(new RxSubscriber<FabResponse>(mContext) {
+                .subscribe(new RxSubscriber<FabResponse>(mContext, false) {
                     @Override
                     public void _onNext(FabResponse fabResponse) {
                         if (fabResponse.getOpen().equals("0")) {
@@ -32,6 +32,11 @@ public class FabPresenter extends FloatingButtonContract.Presenter {
                     @Override
                     public void _onError(String errMsg) {
                         getView().errorReturn(errMsg);
+                    }
+
+                    @Override
+                    public void _onCompleted() {
+
                     }
                 });
     }

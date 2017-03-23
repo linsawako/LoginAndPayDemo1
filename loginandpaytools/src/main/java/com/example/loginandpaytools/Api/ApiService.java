@@ -31,6 +31,7 @@ public interface ApiService {
                                  @Field("role_id") int role_id,
                                  @Field("role_name") String role_name,
                                  @Field("role_level") int role_level,
+                                 @Field("ext") String ext,
                                  @Field("sign") String sign);
 
     /*支付接口*/

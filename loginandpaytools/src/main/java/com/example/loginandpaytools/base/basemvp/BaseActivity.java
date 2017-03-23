@@ -25,6 +25,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected T mPresenter;
     public Context mContext;
     public String toolBarTitle;
+    protected Intent mIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +34,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
         setContentView(getLayoutId());
 
-        Intent intent = getIntent();
-        toolBarTitle = intent.getStringExtra(TOOLBAR_TITLE);
+        mIntent = getIntent();
+        toolBarTitle = mIntent.getStringExtra(TOOLBAR_TITLE);
 
         TextView toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -79,7 +80,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         return true;
     }
 
-    @Override
+  /*  @Override
     protected void onResume() {
 
         if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
@@ -87,7 +88,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         }
 
         super.onResume();
-    }
+    }*/
 
     protected abstract T createPresenter();
 

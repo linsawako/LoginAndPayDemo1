@@ -1,23 +1,30 @@
 package com.example.loginandpaytools.ui.postorder;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.loginandpaytools.R;
 import com.example.loginandpaytools.common.ApiConfig;
 import com.example.loginandpaytools.common.Config;
+import com.example.loginandpaytools.ui.CustomProgressDialog;
+import com.example.loginandpaytools.ui.LoginDialogActivity;
 
 import static com.example.loginandpaytools.ui.postorder.PostOrderActivity.TOOLBAR_TITLE;
 
@@ -63,19 +70,24 @@ public class PostResultActivity extends AppCompatActivity {
         mWebSettings.setJavaScriptEnabled(true);
         mWebSettings.setAllowContentAccess(true);
 
-            webView.setWebViewClient(new WebViewClient(){
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    if( url.startsWith("http:") || url.startsWith("https:") ) {
-                        return false;
-                    }
-                    try{
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        startActivity( intent );
-                    }catch(Exception e){}
-                    return true;
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if( url.startsWith("http:") || url.startsWith("https:") ) {
+                    return false;
                 }
-            });
+                try{
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity( intent );
+                }catch(Exception e){}
+                return true;
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+            }
+        });
 
         webView.loadDataWithBaseURL("about:blank", response, "text/html", "utf-8", null);
 
@@ -91,6 +103,16 @@ public class PostResultActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        webView.stopLoading();
+        webView.removeAllViews();
+        webView.destroy();
+        webView = null;
     }
 
 }

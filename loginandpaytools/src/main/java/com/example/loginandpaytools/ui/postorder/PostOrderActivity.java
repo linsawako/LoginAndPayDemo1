@@ -1,29 +1,42 @@
 package com.example.loginandpaytools.ui.postorder;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.loginandpaytools.Api.Api;
 import com.example.loginandpaytools.R;
 import com.example.loginandpaytools.base.basemvp.BaseActivity;
+import com.example.loginandpaytools.base.util.SignUtil;
 import com.example.loginandpaytools.common.Config;
+import com.example.loginandpaytools.ui.floatingbutton.WebViewActivity;
+import com.example.loginandpaytools.ui.wechatPay.WeChatResponseActivity;
 import com.example.loginandpaytools.ui.wechatPay.WechatPayActivity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.loginandpaytools.common.ApiConfig.TYPE_ALIPAY;
 import static com.example.loginandpaytools.common.ApiConfig.TYPE_WECHAT;
-
+import static com.example.loginandpaytools.ui.wechatPay.WechatPayActivity.WECHATRESPONSE;
 
 
 public class PostOrderActivity extends BaseActivity<PostOrderPresenter> implements PostOrderContract.View, View.OnClickListener {
 
     Button alipay_btn;
     Button wechat_btn;
+    Intent pay_intent;
+    Intent wechat_intent;
 
     public final static String INTENTRESPNSE = "intent_response";
 
     public final static String TOOLBAR_TITLE = "toolbar_title";
+
+    private static final String TAG = "PostOrderActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,15 +81,30 @@ public class PostOrderActivity extends BaseActivity<PostOrderPresenter> implemen
 
     @Override
     public void returnPayOrder(String response) {
-        Intent intent = new Intent(PostOrderActivity.this, PostResultActivity.class);
-        intent.putExtra(INTENTRESPNSE, response);
-        intent.putExtra(TOOLBAR_TITLE, toolBarTitle);
-        startActivity(intent);
+
+        if (Config.payType == TYPE_WECHAT) {
+            pay_intent = new Intent(PostOrderActivity.this, WeChatResponseActivity.class);
+            pay_intent.putExtra(WECHATRESPONSE, response);
+        } else {
+            pay_intent = new Intent(PostOrderActivity.this, PostResultActivity.class);
+            pay_intent.putExtra(INTENTRESPNSE, response);
+            pay_intent.putExtra(TOOLBAR_TITLE, toolBarTitle);
+        }
     }
 
     @Override
     public void errorReturnPayOrder(String errMsg) {
         Toast.makeText(mContext, errMsg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void startIntent() {
+        if (wechat_intent != null && Config.payType == TYPE_WECHAT) {
+            startActivity(wechat_intent);
+        }
+        if (pay_intent != null) {
+            startActivity(pay_intent);
+        }
     }
 
     @Override
@@ -91,9 +119,10 @@ public class PostOrderActivity extends BaseActivity<PostOrderPresenter> implemen
             Config.payType = TYPE_WECHAT;
             Config.order.setPay_type(Config.payType);
 
-            Intent intent = new Intent(PostOrderActivity.this, WechatPayActivity.class);
-            intent.putExtra(TOOLBAR_TITLE, toolBarTitle);
-            startActivity(intent);
+            wechat_intent = new Intent(PostOrderActivity.this, WechatPayActivity.class);
+            wechat_intent.putExtra(TOOLBAR_TITLE, toolBarTitle);
+
+            mPresenter.postOrder(Config.order);
         }
 
     }

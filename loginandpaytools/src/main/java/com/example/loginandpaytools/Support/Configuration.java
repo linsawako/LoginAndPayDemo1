@@ -1,5 +1,7 @@
 package com.example.loginandpaytools.Support;
 
+import com.example.loginandpaytools.common.Config;
+
 /**
  * Created by jerry on 17-3-1.
  */
@@ -12,34 +14,34 @@ public class Configuration {
     public static String DEVICE_ID = "imei";
 
     //应用ID
-    public static int GAME_ID = 1;
+    public static int GAME_ID = Config.game_id;
 
     //渠道ID
-    public static int CHANNEL_ID = 1;
+    public static int CHANNEL_ID = Config.channel_id;
 
     //包标示
-    public static String PACKAGE_NAME = "ios_1.0";
+    public static String PACKAGE_NAME = Config.package_name;
 
     //临时通行码
     public static String CODE = "";
 
     //用户ID
-    public static int UID = 1;
+    public static int UID = Config.uid;
 
     //用户长期通行码
-    public static String TOKEN = "9akcle-59wmnd6ae-rkb";
+    public static String TOKEN = Config.token;
 
     //服务器ID
-    public static int SERVER_ID = 1;
+    public static int SERVER_ID = Config.server_id;
 
     //角色ID
-    public static int ROLE_ID = 1;
+    public static int ROLE_ID = Config.role_id;
 
     //角色名
-    public static String ROLE_NAME = "";
+    public static String ROLE_NAME = Config.role_name;
 
     //角色当前等级
-    public static int ROLE_LEVEL = 1;
+    public static int ROLE_LEVEL = Config.role_level;
 
     //签名所需KEY
     public static String SIGN_KEY = "HSF&$G*BHJ#KGEF(#@";

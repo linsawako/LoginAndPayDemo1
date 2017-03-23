@@ -39,6 +39,7 @@ public class AnimationUtil {
 
     public static void slideButtons(Context context, final FloatingDraftButton button) {
 
+        Log.d(TAG, "slideButtons: ");
         view = button.getLayoutView();
         if (view == null) {
             return;
@@ -55,7 +56,7 @@ public class AnimationUtil {
         int viewHight = view.getHeight();
 
 
-        if (button.isDraftable()) {//可拖拽 展开Buttons
+        if (!button.ifLayoutVisible()) {//可拖拽 展开Buttons
 
             if ((screenWidth - buttonRight) < viewWidth) {
 

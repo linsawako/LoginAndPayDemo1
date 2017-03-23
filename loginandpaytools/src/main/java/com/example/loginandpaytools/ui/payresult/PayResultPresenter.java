@@ -30,6 +30,11 @@ public class PayResultPresenter extends PayResultContract.Presenter {
                     public void _onError(String errMsg) {
                         getView().errorGetResult(errMsg);
                     }
+
+                    @Override
+                    public void _onCompleted() {
+
+                    }
                 });
     }
 }

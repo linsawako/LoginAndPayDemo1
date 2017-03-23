@@ -12,8 +12,9 @@
         android:layout_height="wrap_content"
         android:text="ifopenfab"/>
 
-    <include layout="@layout/layout_floatingmenu" />
-
-    <include layout="@layout/layout_button_list" />
+    <com.example.loginandpaytools.ui.floatingbutton.MyFabMenu
+        android:id="@+id/my_fab_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
