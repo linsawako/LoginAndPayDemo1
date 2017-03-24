@@ -9,6 +9,7 @@ import com.example.loginandpaytools.R;
 import com.example.loginandpaytools.Support.Configuration;
 import com.example.loginandpaytools.bean.JsonBean;
 import com.example.loginandpaytools.bean.SimpleResponse;
+import com.example.loginandpaytools.common.Config;
 import com.example.loginandpaytools.ui.CustomProgressDialog;
 import com.google.gson.stream.JsonReader;
 import com.lzy.okgo.OkGo;
@@ -279,6 +280,7 @@ public class HttpUtil {
                     @Override
                     public void onSuccess(JsonBean<JsonBean.Login> loginJsonBean, Call call, Response response) {
                         super.onSuccess(loginJsonBean, call, response);
+                        Config.fab_token = loginJsonBean.data.token;
                         listener.onFinish(user, password);
                         listener.onFinish(loginJsonBean.data.code);
 
@@ -386,11 +388,14 @@ public class HttpUtil {
      * 角色登陆接口
      */
     public static void roleLogin(final Context context, final HttpCallbackListener listener) {
+        TelephonyManager telephonyManager=(TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        Configuration.DEVICE_ID = telephonyManager.getDeviceId();
         if(!NetworkUtil.isNetworkConnected(context)){
             Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show();
             return;
         }
         SortedMap<String, Object> parameters = new TreeMap<>();
+        //parameters.put("device_id", DEVICE_ID);
         parameters.put("uid", UID);
         parameters.put("token", TOKEN);
         parameters.put("game_id", GAME_ID);
@@ -402,6 +407,7 @@ public class HttpUtil {
         String sign = getSign(parameters);
 
         HttpParams params = new HttpParams();
+        //params.put("device_id",DEVICE_ID);
         params.put("uid", UID);
         params.put("token", TOKEN);
         params.put("game_id", GAME_ID);

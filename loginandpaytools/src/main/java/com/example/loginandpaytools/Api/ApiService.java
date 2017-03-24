@@ -1,7 +1,5 @@
 package com.example.loginandpaytools.Api;
 
-import com.example.loginandpaytools.bean.FabResponse;
-
 import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

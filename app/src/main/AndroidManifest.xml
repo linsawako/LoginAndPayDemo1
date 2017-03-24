@@ -18,7 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".FabButtonActivity"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
     </application>
 
 </manifest>

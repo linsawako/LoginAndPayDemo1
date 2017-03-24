@@ -32,6 +32,7 @@ public class JsonBean<T> {
      */
     public class Login implements Serializable{
         public String code;
+        public String token;
     }
 
     /**

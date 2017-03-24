@@ -35,7 +35,6 @@ import static android.view.View.GONE;
 public class WeChatResponseActivity extends AppCompatActivity {
 
     WebView mWebView;
-    private static final String TAG = "WeChatResponseActivity";
     int flag;
 
     @Override
@@ -44,7 +43,6 @@ public class WeChatResponseActivity extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_we_chat_response);
 
-        Log.d(TAG, "onCreate: ");
         flag = 0;
 
         Intent intent = getIntent();
@@ -113,25 +111,11 @@ public class WeChatResponseActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
        flag = 1;
-        Log.d(TAG, "onPause: " + flag);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop: ");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d(TAG, "onRestart: ");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume: " + flag);
         if (flag == 1) {
             finish();
         }
@@ -140,7 +124,6 @@ public class WeChatResponseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy: ");
         mWebView.stopLoading();
         mWebView.removeAllViews();
         mWebView.destroy();

@@ -3,6 +3,7 @@ package com.example.jerry.loginandpaydemo;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 
 import com.example.loginandpaytools.Utils.AnimationUtil;
 import com.example.loginandpaytools.Utils.ScreenUtil;
+import com.example.loginandpaytools.common.Config;
+import com.example.loginandpaytools.ui.LoginDialogActivity;
 import com.example.loginandpaytools.ui.floatingbutton.FabButtonInterface;
 import com.example.loginandpaytools.ui.floatingbutton.FabPresenter;
 import com.example.loginandpaytools.ui.floatingbutton.FloatingButtonContract;
@@ -19,6 +22,7 @@ import com.example.loginandpaytools.ui.floatingbutton.MyFabMenu;
 import com.example.loginandpaytools.ui.floatingbutton.WebViewActivity;
 
 import static android.R.attr.x;
+import static com.example.loginandpaytools.common.Config.account_url;
 
 public class FabButtonActivity extends AppCompatActivity
         implements FloatingButtonContract.View {
@@ -26,10 +30,7 @@ public class FabButtonActivity extends AppCompatActivity
     FloatingButtonContract.Presenter presenter;
     MyFabMenu mFabMenu;
     Button ifOpenFab_btn;
-
-    String account_url = "http://www.baidu.com";
-    String info_url = "http://www.csdn.net";
-    String forum_url = "http://www.zhihu.com";
+    private static final String TAG = "FabButtonActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,11 @@ public class FabButtonActivity extends AppCompatActivity
         ifOpenFab_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.getFabResponse();
+                if (Config.fab_token == null) {
+                    Toast.makeText(FabButtonActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
+                } else {
+                    presenter.getFabResponse();
+                }
             }
         });
 
@@ -61,7 +66,8 @@ public class FabButtonActivity extends AppCompatActivity
 
         mFabMenu.initViewsVisible(false, false);//设置是否显示悬浮按钮和菜单
 
-        mFabMenu.setFabButtonInterface(new FabButtonInterface() {
+        /*可以自己设置点击事件，默认跳转*/
+        /*mFabMenu.setFabButtonInterface(new FabButtonInterface() {
 
             Intent intent = new Intent(FabButtonActivity.this, WebViewActivity.class);
 
@@ -85,7 +91,7 @@ public class FabButtonActivity extends AppCompatActivity
                 intent.putExtra(WebViewActivity.TOOLBAR_TITLE, "论坛");
                 startActivity(intent);
             }
-        });
+        });*/
     }
 
     @Override
@@ -100,4 +106,5 @@ public class FabButtonActivity extends AppCompatActivity
     public void errorReturn(String errMsg) {
         Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
     }
+
 }

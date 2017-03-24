@@ -37,7 +37,8 @@
             android:screenOrientation="landscape"/>
 
         <activity
-            android:name=".ui.floatingbutton.WebViewActivity"></activity>
+            android:name=".ui.floatingbutton.WebViewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
     </application>
 
 </manifest>

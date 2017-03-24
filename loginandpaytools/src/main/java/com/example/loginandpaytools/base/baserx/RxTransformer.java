@@ -4,10 +4,12 @@ import android.util.Log;
 
 import com.example.loginandpaytools.Exception.ServerException;
 import com.example.loginandpaytools.base.util.ResponseType;
+import com.example.loginandpaytools.bean.FabResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
 import retrofit2.Response;
 import rx.Observable;
@@ -17,6 +19,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 import static android.content.ContentValues.TAG;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 
 /**
@@ -98,7 +101,45 @@ public class RxTransformer {
         };
     }
 
+    public static <T> Observable.Transformer<String, T> handleFabResultFromString(final Class<T> cls) {
+        if (cls == null) {
+            throw new NullPointerException("cls cannot be null!");
+        }
+        return new Observable.Transformer<String, T>() {
+            @Override
+            public Observable<T> call(Observable<String> sObservable) {
+                return sObservable.flatMap(new Func1<String, Observable<T>>() {
+                    @Override
+                    public Observable<T> call(String s) {
+                        Log.d(TAG, "call: " + s);
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<BaseResponse<T>>(){}.getType();
 
+                        BaseResponse<T> response = gson.fromJson(s, type);
+
+                        if (response.isStatusOK()) {
+                            if (response.getData() == null) {
+                                return createData(null);
+                            } else {
+                                T t = gson.fromJson(s, cls);
+                                return createData(t);
+                            }
+
+                        } else {
+                            BaseError error = gson.fromJson(s, BaseError.class);
+                            Log.d(TAG, "call: " + error.getMsg());
+                            return Observable.error(new ServerException(error.getMsg()));
+                        }
+                    }
+                });
+            }
+        };
+    }
+
+    /**
+     * 处理支付接口的返回，有可能为json或html
+     * @return
+     */
     public static Observable.Transformer<Response<String>, String> handlerPayFromString() {
 
         return new Observable.Transformer<Response<String>, String>() {

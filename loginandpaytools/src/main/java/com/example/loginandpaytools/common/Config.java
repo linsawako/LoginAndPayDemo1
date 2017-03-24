@@ -49,6 +49,14 @@ public class Config {
 
     public static String platform_order_num;
 
+    public static String fab_token;
+
+    public static String account_url;
+
+    public static String bbs_url;
+
+    public static String chat_url;
+
     public final static String SIGN_KEY = "HSF&$G*BHJ#KGEF(#@";
 
 }

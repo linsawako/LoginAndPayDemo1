@@ -28,7 +28,7 @@ public class FabModel implements FloatingButtonContract.Model {
                 .ifOpenFab(Config.game_id,
                         Config.package_name,
                         SignUtil.sign(map))
-                .compose(RxTransformer.handleResultFromString(FabResponse.class))
+                .compose(RxTransformer.handleFabResultFromString(FabResponse.class))
                 .compose(RxTransformer.<FabResponse>schedules_io_main());
     }
 }
